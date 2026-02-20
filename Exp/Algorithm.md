@@ -98,3 +98,85 @@ $$
 که:
 η = learning rate
 
+## 5️⃣ حالا CatBoost چیست؟
+
+CatBoost
+کتابخانه‌ای از شرکت Yandex است.
+
+مخفف:
+Categorical Boosting
+
+مشکل اصلی که حل می‌کند:
+
++ داده‌های categorical
+
++ مشکل overfitting
+
++ مشکل target leakage
+
+  ## 6️⃣ تفاوت اصلی CatBoost با Gradient Boosting معمولی
+1️⃣ Ordered Boosting
+
+در Gradient Boosting معمولی:
+وقتی residual حساب می‌کنیم، از کل داده استفاده می‌کنیم → باعث leakage می‌شود.
+
+CatBoost از تکنیک Ordered Boosting استفاده می‌کند:
+هر نمونه فقط از داده‌های قبلی برای محاسبه گرادیان استفاده می‌کند.
+
+این کار bias را کاهش می‌دهد.
+
+2️⃣ مدیریت حرفه‌ای داده‌های categorical
+
+به جای:
+One-hot encoding
+
+CatBoost از:
+
+Target Encoding هوشمند و بدون leakage
+
+فرمول ساده:
+
+$$
+\hat{x}_i = \frac{\sum y_{\text{prev}} + aP}{n_{\text{prev}} + a}
+$$
+
+که:
+
++ فقط نمونه‌های قبلی استفاده می‌شوند
+
++ متغیر a پارامتر regularization
+
++ متغیر P میانگین کلی target
+
+  ## 7️⃣ مراحل اجرای CatBoost
+
+1.تعیین Loss Function
+
+2.مقداردهی اولیه مدل
+
+3.Ordered Gradient Calculation
+
+4.ساخت درخت متقارن (Oblivious Tree)
+
+5.محاسبه leaf values
+
+6.آپدیت مدل
+
+7.تکرار
+
+## 8️⃣ درخت‌های متقارن (Oblivious Trees)
+
+CatBoost از درخت‌های خاصی استفاده می‌کند:
+
+در هر سطح:
+همه گره‌ها از یک feature و threshold استفاده می‌کنند.
+
+مزایا:
+
+سریع‌تر
+
+کمتر overfit
+
+GPU-friendly
+
+پیش‌بینی سریع
