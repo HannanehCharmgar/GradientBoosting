@@ -81,3 +81,20 @@ $$
 2️⃣ آموزش درخت روی residual ها:
 
 $r_{im}$ ≈ $h_m(x)$
+
+3️⃣ پیدا کردن وزن بهینه:
+
+
+$$
+\gamma_m = \arg\min_{\gamma} \sum_{i=1}^{n} L\left(y_i, F_{m-1}(x_i) + \gamma h_m(x_i)\right)
+$$
+
+4️⃣ آپدیت مدل:
+
+$$
+F_m(x) = F_{m-1}(x) + \eta \gamma_m h_m(x)
+$$
+
+که:
+η = learning rate
+
