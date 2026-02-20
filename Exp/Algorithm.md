@@ -180,3 +180,31 @@ CatBoost از درخت‌های خاصی استفاده می‌کند:
 GPU-friendly
 
 پیش‌بینی سریع
+
+# 9️⃣ مزایا
+
+✔ مدیریت عالی categorical
+✔ overfitting کمتر
+✔ نیاز کمتر به preprocessing
+✔ عملکرد قوی روی داده‌های کوچک
+✔ مقاوم به leakage
+
+#🔟 معایب
+
+✖ کندتر از LightGBM در برخی موارد
+✖ مصرف حافظه بیشتر
+✖ در دیتاست‌های خیلی بزرگ گاهی کندتر
+
+# 1️⃣1️⃣ کاربردها
+
++ Credit scoring
+
++ Fraud detection
+
++ Ranking
+
++ Recommender systems
+
++ Tabular data competitions
+
+در مسابقات Kaggle بسیار محبوب است.
