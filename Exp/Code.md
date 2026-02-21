@@ -344,19 +344,29 @@ plt.show()
 
 ### نمودار Precision-Recall 
 ```
-# Cell 12: Precision-Recall Curve Comparison
-plt.figure(figsize=(7,6))
+# Precision-Recall Curve Comparison (Corrected)
+from sklearn.metrics import precision_recall_curve, average_precision_score
 
+# CatBoost
 prec_cat, rec_cat, _ = precision_recall_curve(y_test, y_proba_cat)
-prec_log, rec_log, _ = precision_recall_curve(y_test, y_proba_log)
+pr_auc_cat = average_precision_score(y_test, y_proba_cat)
 
-plt.plot(rec_cat, prec_cat, label=f"CatBoost (PR-AUC={pr_auc_cat:.3f})")
-plt.plot(rec_log, rec_log, label=f"Logistic (PR-AUC={pr_auc_log:.3f})")
+# Logistic Regression
+prec_log, rec_log, _ = precision_recall_curve(y_test, y_proba_log)
+pr_auc_log = average_precision_score(y_test, y_proba_log)
+
+# Plot
+plt.figure(figsize=(8,6))
+plt.plot(rec_cat, prec_cat, label=f"CatBoost (PR-AUC={pr_auc_cat:.3f})", color="#1f77b4", linewidth=2)
+plt.plot(rec_log, prec_log, label=f"Logistic (PR-AUC={pr_auc_log:.3f})", color="#ff7f0e", linewidth=2)
+plt.fill_between(rec_cat, prec_cat, alpha=0.1, color="#1f77b4")
+plt.fill_between(rec_log, prec_log, alpha=0.1, color="#ff7f0e")
 
 plt.xlabel("Recall")
 plt.ylabel("Precision")
 plt.title("Precision-Recall Curve Comparison")
 plt.legend()
+plt.grid(alpha=0.3)
 plt.show()
 ```
 نمودار Precision-Recall Curve برای دیتاست‌های imbalance مهمه.
