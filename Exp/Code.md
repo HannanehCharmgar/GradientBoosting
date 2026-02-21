@@ -25,6 +25,8 @@ from catboost import CatBoostClassifier
 sns.set(style="whitegrid")
 plt.rcParams['figure.figsize'] = [10, 6]
 ```
+
+
 این سلول همه کتابخانه‌های مورد نیاز پروژه رو وارد می‌کنه.
 
 کتابخانه pandas و numpy برای کار با دیتا فریم و محاسبات عددی استفاده می‌شن.
@@ -63,6 +65,15 @@ df.drop('customerID', axis=1, inplace=True)
 print("Dataset shape:", df.shape)
 print("Class distribution:\n", df['Churn'].value_counts(normalize=True))
 ```
+### Output:
+```
+Dataset shape: (7032, 20)
+Class distribution:
+ Churn
+0    0.734215
+1    0.265785
+```
+
 
 دیتاست Telco Customer Churn رو بارگذاری می‌کنیم.
 
@@ -154,6 +165,15 @@ print("ROC-AUC  :", round(auc_cat, 4))
 print("PR-AUC   :", round(pr_auc_cat, 4))
 print("F1-Score :", round(f1_cat, 4))
 ```
+### Output:
+```
+===== CatBoost Performance =====
+Accuracy : 0.7328
+ROC-AUC  : 0.8395
+PR-AUC   : 0.6594
+F1-Score : 0.6155
+```
+
 مدل CatBoost روی داده Test پیش‌بینی می‌کنه.
 
 بخش y_proba_cat احتمال Churn رو میده.
@@ -200,6 +220,19 @@ for fold, (train_idx, val_idx) in enumerate(skf.split(X, y)):
 print("\nMean CV AUC:", round(np.mean(cv_auc_scores),4))
 print("Std CV AUC :", round(np.std(cv_auc_scores),4))
 ```
+### Output:
+```
+Running Manual Cross Validation...
+Fold 1 AUC: 0.8407
+Fold 2 AUC: 0.8545
+Fold 3 AUC: 0.8429
+Fold 4 AUC: 0.8382
+Fold 5 AUC: 0.8363
+
+Mean CV AUC: 0.8425
+Std CV AUC : 0.0064
+```
+
 اعتبارسنجی یا Cross Validation دستی برای جلوگیری از ارور sklearn clone انجام شد.
 
 داده‌ها به ۵ fold تقسیم میشن و مدل روی هر fold آموزش و ارزیابی میشه.
@@ -223,6 +256,11 @@ for t in thresholds:
 best_threshold = thresholds[np.argmax(f1_scores)]
 print("\nBest Threshold (F1 Optimized):", round(best_threshold,3))
 ```
+### Output:
+```
+Best Threshold (F1 Optimized): 0.625
+```
+
 ه طور پیش‌فرض threshold=0.5 برای Churn هست.
 
 این سلول threshold بهینه برای بیشینه کردن F1 Score پیدا می‌کنه.
@@ -252,6 +290,11 @@ plt.ylabel("Actual")
 plt.xlabel("Predicted")
 plt.show()
 ```
+### Output:
+
+<img width="521" height="473" alt="image" src="https://github.com/user-attachments/assets/af04d91f-c966-45de-9a59-5a95a9192cd0" />
+
+
 این ماتریس نمایش میده که مدل روی هر کلاس چقدر درست پیش‌بینی کرده.
 
 سلول‌ها هم عدد مطلق و هم درصد نمایش داده میشن.
@@ -274,6 +317,11 @@ sns.barplot(data=fi_df, x="Importance", y="Feature")
 plt.title("Top 15 Feature Importances - CatBoost")
 plt.show()
 ```
+### Output:
+
+<img width="791" height="550" alt="image" src="https://github.com/user-attachments/assets/9bd7ab00-4b57-411d-955b-be10fcb65d77" />
+
+
 این سلول ویژگی‌های مهم مدل CatBoost رو مشخص می‌کنه.
 
 بخش get_feature_importance() میزان تاثیر هر ویژگی رو در پیش‌بینی میده.
@@ -335,6 +383,12 @@ plt.title("ROC Curve Comparison")
 plt.legend()
 plt.show()
 ```
+### Output:
+
+<img width="617" height="550" alt="image" src="https://github.com/user-attachments/assets/465101aa-953e-483d-b69f-ec220774672c" />
+
+
+
 نمودار ROC Curve تفکیک بین کلاس‌ها رو نشون میده.
 
  مدل های CatBoost و Logistic با هم مقایسه میشن.
@@ -369,6 +423,12 @@ plt.legend()
 plt.grid(alpha=0.3)
 plt.show()
 ```
+### Output:
+
+<img width="695" height="550" alt="image" src="https://github.com/user-attachments/assets/212e1416-0011-49c4-b72e-6e2ce4e6d850" />
+
+
+
 نمودار Precision-Recall Curve برای دیتاست‌های imbalance مهمه.
 
 هرچقدر PR-AUC عدد بزرگتری باشد = بهتر بودن مدل برای تشخیص Churn.
@@ -391,6 +451,14 @@ comparison = pd.DataFrame({
 print("\n===== Final Model Comparison =====")
 print(comparison)
 ```
+### Output: 
+```
+===== Final Model Comparison =====
+                 Model  Accuracy   ROC-AUC    PR-AUC  F1-Score
+0  Logistic Regression  0.726368  0.834977  0.617349  0.607543
+1             CatBoost  0.732765  0.839507  0.659379  0.615542
+```
+
 جدول نهایی عملکرد مدل‌ها.
 
 شامل Accuracy، ROC-AUC، PR-AUC و F1-Score برای CatBoost و Logistic.
