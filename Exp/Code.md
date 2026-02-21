@@ -43,6 +43,7 @@ plt.rcParams['figure.figsize'] = [10, 6]
 
  و sns.set() و plt.rcParams برای تنظیم ظاهر نمودارها.
 
+
 ### بارگذاری و پاکسازی دیتا
 
 ```
@@ -73,6 +74,7 @@ print("Class distribution:\n", df['Churn'].value_counts(normalize=True))
 
 در نهایت ابعاد دیتاست و توزیع کلاس‌ها چاپ میشه تا متوجه imbalance شویم.
 
+
 ### تقسیم داده TRAIN/TEST
 
 ```
@@ -97,6 +99,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 ویژگی‌های دسته‌ای شناسایی میشن تا CatBoost بدونه کدوم ستون‌ها categorical هستند.
 
 با train_test_split داده‌ها به Train 80% و Test 20% تقسیم میشن و stratify=y تضمین می‌کنه نسبت churn و non-churn در Train و Test حفظ بشه.
+
 
 ### مدل CatBoost 
 
@@ -132,6 +135,7 @@ cat_model.fit(
 
 بخش use_best_model=True تضمین می‌کنه بهترین مدل روی Test ذخیره بشه.
 
+
 ### ارزیابی مدل CatBoost
 ```
 # Cell 5: CatBoost Predictions & Metrics
@@ -157,6 +161,7 @@ print("F1-Score :", round(f1_cat, 4))
 معیارهای مهم: Accuracy, ROC-AUC, PR-AUC, F1 محاسبه میشن.
 
 این معیارها کیفیت پیش‌بینی مدل رو نشون میدن و برای مقایسه با Logistic Regression آماده هستن.
+
 
 ### اعتبار سنجی مدل
 
@@ -203,6 +208,7 @@ print("Std CV AUC :", round(np.std(cv_auc_scores),4))
 
 نتیجه: Mean AUC میانگین عملکرد و Std AUC پایداری مدل رو نشون میده.
 
+
 ### یافتن Threshold بهینه
 
 ```
@@ -222,6 +228,7 @@ print("\nBest Threshold (F1 Optimized):", round(best_threshold,3))
 این سلول threshold بهینه برای بیشینه کردن F1 Score پیدا می‌کنه.
 
 نتیجه: اگر احتمال > 0.625 باشه → پیش‌بینی Churn.
+
 
 ### ماتریس درهم ریختگی 
 
@@ -251,6 +258,7 @@ plt.show()
 
 دسته های No Churn و Churn به صورت واضح روی محورهای x و y مشخص شدن.
 
+
 ### بررسی اهمیت Feature ها 
 
 ```
@@ -271,6 +279,7 @@ plt.show()
 بخش get_feature_importance() میزان تاثیر هر ویژگی رو در پیش‌بینی میده.
 
 فقط ۱۵ ویژگی برتر نمایش داده میشه.
+
 
 ### مدل رگرسیون لجستیک 
 
@@ -306,6 +315,7 @@ pr_auc_log = average_precision_score(y_test, y_proba_log)
 
 مدل آموزش داده میشه و پیش‌بینی و معیارهای عملکرد محاسبه میشن.
 
+
 ### نمودار ROC 
 
 ```
@@ -331,6 +341,7 @@ plt.show()
 
 خط خطی (diagonal) = حدس تصادفی. هرچی منحنی بالاتر باشه، عملکرد بهتره.
 
+
 ### نمودار Precision-Recall 
 ```
 # Cell 12: Precision-Recall Curve Comparison
@@ -354,6 +365,7 @@ plt.show()
 
 مدل CatBoost معمولاً PR-AUC بالاتری داره.
 
+
 ### جدول عملکرد 2 مدل ( CatBoost & LogisticRegression )
 
 ```
@@ -373,3 +385,9 @@ print(comparison)
 
 شامل Accuracy، ROC-AUC، PR-AUC و F1-Score برای CatBoost و Logistic.
 
+
+### بررسی نهایی 
+
+مدل CatBoost با استفاده از gradient boosting روی داده‌های ترکیبی (عددی و دسته‌ای) آموزش داده شد و توانست ROC-AUC ≈ 0.84 و F1 ≈ 0.62 روی داده تست کسب کند؛ مدل پایدار و مقاوم به imbalance است و ویژگی‌های کلیدی مانند Contract و MonthlyCharges بیشترین تاثیر را داشتند.
+در مقابل، Logistic Regression به عنوان مدل خطی پایه با داده‌های یک‌هوت انکود و نرمال شده اجرا شد و عملکرد آن پایین‌تر بود (ROC-AUC ≈ 0.78 و F1 ≈ 0.55)، نشان‌دهنده محدودیت مدل‌های خطی در شناسایی روابط غیرخطی و تعاملات پیچیده بین ویژگی‌ها.
+بنابراین، CatBoost هم در دقت و هم در توانایی تفکیک churn vs no-churn برتر است و برای این دیتاست توصیه می‌شود.
