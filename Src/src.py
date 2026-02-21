@@ -158,7 +158,7 @@ print("\nBest Threshold (F1 Optimized):", round(best_threshold,3))
 
 
 # ========================
-# Confusion Matrix (Advanced)
+# Confusion Matrix 
 # ========================
 cm = confusion_matrix(y_test, y_pred_cat)
 cm_percent = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -241,3 +241,40 @@ plt.ylabel("True Positive Rate")
 plt.title("ROC Curve Comparison")
 plt.legend()
 plt.show()
+#==================================================
+# Precision-Recall Curve Comparison (Corrected)
+from sklearn.metrics import precision_recall_curve, average_precision_score
+
+# CatBoost
+prec_cat, rec_cat, _ = precision_recall_curve(y_test, y_proba_cat)
+pr_auc_cat = average_precision_score(y_test, y_proba_cat)
+
+# Logistic Regression
+prec_log, rec_log, _ = precision_recall_curve(y_test, y_proba_log)
+pr_auc_log = average_precision_score(y_test, y_proba_log)
+
+# Plot
+plt.figure(figsize=(8,6))
+plt.plot(rec_cat, prec_cat, label=f"CatBoost (PR-AUC={pr_auc_cat:.3f})", color="#1f77b4", linewidth=2)
+plt.plot(rec_log, prec_log, label=f"Logistic (PR-AUC={pr_auc_log:.3f})", color="#ff7f0e", linewidth=2)
+plt.fill_between(rec_cat, prec_cat, alpha=0.1, color="#1f77b4")
+plt.fill_between(rec_log, prec_log, alpha=0.1, color="#ff7f0e")
+
+plt.xlabel("Recall")
+plt.ylabel("Precision")
+plt.title("Precision-Recall Curve Comparison")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()
+# Cell 13: Final Model Comparison Table
+# ====================================================
+comparison = pd.DataFrame({
+    "Model": ["Logistic Regression", "CatBoost"],
+    "Accuracy": [acc_log, acc_cat],
+    "ROC-AUC": [auc_log, auc_cat],
+    "PR-AUC": [pr_auc_log, pr_auc_cat],
+    "F1-Score": [f1_log, f1_cat]
+})
+
+print("\n===== Final Model Comparison =====")
+print(comparison)
