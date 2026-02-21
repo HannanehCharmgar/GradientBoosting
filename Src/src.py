@@ -1,9 +1,3 @@
-# ==========================================================
-# Telco Customer Churn Prediction
-# Stable & Error-Free Version
-# CatBoost + Logistic Comparison
-# ==========================================================
-
 # ========================
 # 1. Import Libraries
 # ========================
