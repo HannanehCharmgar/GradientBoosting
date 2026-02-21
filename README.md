@@ -7,3 +7,4 @@
 | - [`src.py`](https://github.com/HannanehCharmgar/GradientBoosting/blob/main/Src/src.py) |GB Catboost Code |
 | 📁 [Exp](https://github.com/HannanehCharmgar/GradientBoosting/tree/main/Exp) | Explanation folder |
 | - [`Algorithm.md`](https://github.com/HannanehCharmgar/GradientBoosting/blob/main/Exp/Algorithm.md) | Explanation of Algorithm |
+| - [`Code.md`](https://github.com/HannanehCharmgar/GradientBoosting/blob/main/Exp/Algorithm.md) | Explanation of Code |
